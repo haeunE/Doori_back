@@ -36,22 +36,28 @@ public class UserController {
 	
 	// 회원가입 구현부
 	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult){
-		System.out.println(userDTO);
-		
-		if(bindingResult.hasErrors()) {
-			StringBuilder errorMessages = new StringBuilder();
-			bindingResult.getAllErrors().forEach(error->{
-				errorMessages.append(error.getDefaultMessage()).append("\n");
-			});
-			return ResponseEntity.badRequest().body(errorMessages.toString());
-		}
-		
-		// 유효성 검사 통과 시 회원가입 로직 처리 (예: User 엔티티 저장)
-		User user = modelMapper.map(userDTO, User.class);
-        userService.saveUser(user);
-		return new ResponseEntity<>("회원가입성공", HttpStatus.OK);
+	public ResponseEntity<?> signup(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
+	    // 유효성 검사
+	    if (bindingResult.hasErrors()) {
+	        StringBuilder errorMessages = new StringBuilder();
+	        bindingResult.getAllErrors().forEach(error -> {
+	            errorMessages.append(error.getDefaultMessage()).append("\n");
+	        });
+	        return ResponseEntity.badRequest().body(errorMessages.toString());
+	    }
+	    
+	    try {
+	        // 유효성 검사 통과 시 회원가입 로직 처리
+	        User user = modelMapper.map(userDTO, User.class);
+	        System.out.println(user);
+	        userService.saveUser(user);
+	        return new ResponseEntity<>("회원가입 성공", HttpStatus.OK);
+	    } catch (Exception e) {
+	        // 예외 처리
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 실패: " + e.getMessage());
+	    }
 	}
+
 	
 	// 로그인 구현부
 	@PostMapping("/login")

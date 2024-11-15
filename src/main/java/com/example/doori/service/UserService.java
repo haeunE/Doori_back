@@ -13,11 +13,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
 
-	private final UserRepository userRepository;
-	
-	private final PasswordEncoder passwordEncoder;
-	
-		
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    
     // 회원가입 시 username, email, tel 중복되지 않도록 구현
     public void checkUser(User user) {
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
@@ -30,14 +28,20 @@ public class UserService {
             throw new IllegalArgumentException("이미 존재하는 전화번호입니다.");
         }
     }
-	
-	
-	// 유저 정보 DB저장
-	public void saveUser(User user) {
-		checkUser(user);
-		user.setRole(RoleType.MEMBER);
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		userRepository.save(user);
-	}
-	
+
+    // 유저 정보 DB 저장
+    public void saveUser(User user) {
+        // 중복 체크 후 유효성 검사
+        checkUser(user);
+        
+        // 회원 역할을 기본적으로 MEMBER로 설정
+        user.setRole(RoleType.MEMBER);
+        
+        // 비밀번호 암호화
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        
+        System.out.println(user);
+        // 유저 정보 저장
+        userRepository.save(user);
+    }
 }
