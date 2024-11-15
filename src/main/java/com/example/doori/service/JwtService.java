@@ -6,11 +6,14 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
+@Component
 public class JwtService {
 	//토큰 만료 시간 설정
 	static final long EXPIRATIONTIME = 2 * 60 * 60 * 1000;

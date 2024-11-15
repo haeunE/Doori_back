@@ -36,7 +36,7 @@ public class SecurityConfig {
 		//엔드포인트 접근 권한 설정 ( 첫 접속 포인트 )
 		http.authorizeRequests()
 			// (로그인, 로그아웃 , 홈 , 영화 목록)페이지 만 접근 가능
-			.antMatchers(HttpMethod.POST,"/login","/signup").permitAll() 
+			.antMatchers(HttpMethod.POST,"/login","/signup", "/login/kakao").permitAll() 
 			.antMatchers(HttpMethod.GET,"/home","/test").permitAll()
 			.anyRequest().authenticated() //나머지 모든 요청은 인증 필요
 			.and()
