@@ -17,12 +17,6 @@ public class UserService {
 	
 	private final PasswordEncoder passwordEncoder;
 	
-	
-	// username으로 중복있는지 확인
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
-    }
 		
     // 회원가입 시 username, email, tel 중복되지 않도록 구현
     public void checkUser(User user) {

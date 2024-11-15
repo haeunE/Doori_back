@@ -1,6 +1,9 @@
 package com.example.doori.config;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -14,6 +17,11 @@ public class WebConfig implements WebMvcConfigurer{
 		registry.addMapping("/**")
 			.allowedOrigins("http://localhost:3000") // http://localhost:3000 도메인만 허용
 			.allowedMethods("GET","POST","PUT","DELETE"); // 허용할 HTTP 메서드 목록
+	}
+	
+	@Bean
+	ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 	
 }
