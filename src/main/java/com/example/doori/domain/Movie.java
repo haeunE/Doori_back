@@ -16,10 +16,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Movies {
+public class Movie {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@Column(name="MOVIE_ID")
+	private Integer id;
 	
 	//포스터
 	@Column(nullable = false, unique=true)

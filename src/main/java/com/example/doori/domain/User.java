@@ -1,5 +1,8 @@
 package com.example.doori.domain;
 
+
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -7,22 +10,24 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Table(name = "USERS")
 public class User {
 	@Id
 	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	@Column(name = "USER_ID")
 	private Integer id; // 순서
 	
 	// 회원 ID
@@ -44,7 +49,7 @@ public class User {
 	//가입날짜
 	@CreationTimestamp
 	@Column(nullable = false)
-	private String createDate;
+	private Timestamp createDate;
 	
 	//전화번호
 	@Column(nullable = false, unique = true)
