@@ -25,7 +25,7 @@ public class Timetable {
 	private Integer id;
 	
 	//상영 날짜 시간
-	@Column(nullable = false)
+	@Column(nullable = false, length = 50)
 	private Date movieDate;
 	
 	//영화정보 - movieId(fk)

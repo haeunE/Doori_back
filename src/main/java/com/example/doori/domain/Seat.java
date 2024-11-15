@@ -24,7 +24,7 @@ public class Seat {
 	private Integer id;
 	
 	//좌석 번호
-	@Column(name="SEAT_NB", nullable = false)
+	@Column(name="SEAT_NB", nullable = false, length = 5)
 	private String seatNb;
 	
 	//예약번호

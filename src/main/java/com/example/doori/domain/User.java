@@ -39,11 +39,11 @@ public class User {
 	private String password; 
 	
 	// 이름
-	@Column(nullable = false)
+	@Column(nullable = false, length = 10)
 	private String name;
 	
 	//이메일
-	@Column(nullable = false, length = 100, unique = true)
+	@Column(nullable = false, length = 50, unique = true)
 	private String email;
 	
 	//가입날짜
@@ -52,11 +52,11 @@ public class User {
 	private Timestamp createDate;
 	
 	//전화번호
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = true, length=11)
 	private String tel;
 	
 	//Rolltype
 	@Enumerated(EnumType.STRING)
-	@ColumnDefault("MEMBER")
-	private RoleType rolltype;
+	@ColumnDefault("'MEMBER'")
+	private RoleType role;
 }

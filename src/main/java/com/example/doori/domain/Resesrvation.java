@@ -29,7 +29,7 @@ public class Resesrvation {
 	private Integer id;
 	
 	//결제 총가격
-	@Column(nullable = false)
+	@Column(nullable = false, length = 8)
 	private String price;
 	
 	//결제일

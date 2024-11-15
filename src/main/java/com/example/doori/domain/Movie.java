@@ -23,38 +23,38 @@ public class Movie {
 	private Integer id;
 	
 	//포스터
-	@Column(nullable = false, unique=true)
+	@Column(nullable = false, unique=true, columnDefinition = "TEXT")
 	private String moviePoster;
 	
 	//시간(분)
 	@Column(nullable = false)
-	private String movieRunningtime;
+	private Integer movieRunningtime;
 	
 	//제목
-	@Column(nullable = false, unique=true)
+	@Column(nullable = false, unique=true, length = 500)
 	private String title;
 	
 	//감독
-	@Column(nullable = false)
+	@Column(nullable = false, length = 50)
 	private String director;
 	
 	//배우
-	@Column(nullable = false)
+	@Column(nullable = false, length = 50)
 	private String actor;
 	
 	//줄거리
-	@Column(nullable = false)
-	private String polt;
+	@Column(nullable = false, columnDefinition = "TEXT")
+	private String plot;
 	
 	//개봉일
-	@Column(nullable = false)
+	@Column(nullable = false, length = 50)
 	private String releaseDte;
 	
 	//장르
-	@Column(nullable = false)
+	@Column(nullable = false, length = 20)
 	private String genre;
 	
 	//심의여부
-	@Column(nullable = false)
+	@Column(nullable = false, length = 1)
 	private String ratedYn;
 }
