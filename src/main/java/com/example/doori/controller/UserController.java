@@ -49,7 +49,6 @@ public class UserController {
 	    try {
 	        // 유효성 검사 통과 시 회원가입 로직 처리
 	        User user = modelMapper.map(userDTO, User.class);
-	        System.out.println(user);
 	        userService.saveUser(user);
 	        return new ResponseEntity<>("회원가입 성공", HttpStatus.OK);
 	    } catch (Exception e) {
@@ -61,20 +60,22 @@ public class UserController {
 	
 	// 로그인 구현부
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody UserCredentials userCredentials){
-		UsernamePasswordAuthenticationToken creds =
-				new UsernamePasswordAuthenticationToken(userCredentials.getUsername(), userCredentials.getPassword());
-		
-		Authentication auth = authenticationManager.authenticate(creds);
-		
-		String jwts = jwtService.getToken(auth.getName());
-		System.out.println(jwts);
-		
-		return ResponseEntity.ok()
-							.header(HttpHeaders.AUTHORIZATION, "Bearer" + jwts)
-							.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorizaion")
-							.build();
+	public ResponseEntity<?> login(@RequestBody UserCredentials userCredentials) {
+	    try {
+	        UsernamePasswordAuthenticationToken creds =
+	                new UsernamePasswordAuthenticationToken(userCredentials.getUsername(), userCredentials.getPassword());
+
+	        Authentication auth = authenticationManager.authenticate(creds);
+	        String jwts = jwtService.getToken(auth.getName());
+
+	        return ResponseEntity.ok()
+	                            .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts)
+	                            .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
+	                            .build();
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패: 사용자 이름 또는 비밀번호가 잘못되었습니다.");
+	    }
 	}
-	
+
 
 }

@@ -1,0 +1,79 @@
+package com.example.reactspring.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.example.reactspring.filter.JwtFilter;
+import com.example.reactspring.security.AuthEntryPoint;
+
+@Configuration
+public class SecurityConfig {
+	
+	@Autowired
+	private JwtFilter jwtFilter;
+	
+	@Autowired
+	private AuthEntryPoint authEntryPoint;
+	
+	@Bean
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+		http.csrf().disable();
+		http.cors();
+		
+		// session정책 설정=>session사용 x
+		http.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
+		// 권한 설정
+		http.authorizeRequests()
+			.antMatchers(HttpMethod.POST, "/login", "/signup").permitAll() // 인증여부없이 사용자 사용 가능
+			.antMatchers(HttpMethod.GET, "/board").permitAll()
+			.anyRequest().authenticated()
+			.and()
+			.exceptionHandling()
+			.authenticationEntryPoint(authEntryPoint)
+			.and()
+			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+			// security 실행전 실행되야하는 함수들 정함
+			
+		
+		
+		return http.build();
+	}
+	
+	// http://localhost:3000에서 오는 요청을 허용,  URL 패턴에 대해 CORS 설정을 등록할 수 있는 클래스
+	@Bean
+	CorsConfigurationSource crosconfigurationSource() {
+		CorsConfiguration config = new CorsConfiguration();
+		config.addAllowedOrigin("http://localhost:3000");
+		
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", config);
+		
+		return source;
+	}
+	
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	// 사용자의 인증 요청을 처리하는 인터페이스입니다. 사용자 인증 정보를 확인하고, 인증이 성공하면 인증된 사용자 정보를 반환하며, 실패하면 예외를 발생
+	@Bean
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
+}

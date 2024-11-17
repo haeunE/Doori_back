@@ -20,9 +20,9 @@ public class KakaoController {
 	System.out.println(username);
 	 String jwts = jwtService.getToken(username);
 	 return ResponseEntity.ok()
-	 .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts)
-	 .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
-	 .build();
+						 .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts)
+						 .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
+						 .build();
 	 }
 	
 }
