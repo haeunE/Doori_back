@@ -64,6 +64,17 @@ public class UserController {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 실패: " + e.getMessage());
 	    }
 	}
+	
+	// 회원가입시 username 중복확인
+	@PostMapping("/usernamecheck")
+	public ResponseEntity<?> checkUsername(String username){
+		Optional<User> user =  userService.userDetail(username);
+		
+		if(user.isPresent()) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미 있는 아이디 입니다");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body("사용가능한 아이디 입니다");
+	}
 
 	
 	// 로그인 구현부
