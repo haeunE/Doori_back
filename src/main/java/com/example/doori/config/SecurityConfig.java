@@ -11,10 +11,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
+import com.example.doori.filter.JwtFilter;
 import com.example.doori.security.AuthEntryPoint;
 
 @Configuration
@@ -22,6 +24,9 @@ public class SecurityConfig {
 	
 	@Autowired
 	private AuthEntryPoint authEntryPoint;
+	
+	@Autowired
+	private JwtFilter jwtFilter;
 	
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,12 +41,16 @@ public class SecurityConfig {
 		//엔드포인트 접근 권한 설정 ( 첫 접속 포인트 )
 		http.authorizeRequests()
 			// (로그인, 로그아웃 , 홈 , 영화 목록)페이지 만 접근 가능
-			.antMatchers(HttpMethod.POST,"/login","/signup").permitAll() 
-			.antMatchers(HttpMethod.GET,"/home","/test").permitAll()
+			.antMatchers(HttpMethod.POST,"/doori/login","/doori/signup", "/doori/login/kakao").permitAll()
+			.antMatchers(HttpMethod.PUT,"doori/userupdate").permitAll()
+			.antMatchers(HttpMethod.DELETE, "doori/userdelete").permitAll()
+			.antMatchers(HttpMethod.GET,"/doori/home","doori/userupdate").permitAll()
 			.anyRequest().authenticated() //나머지 모든 요청은 인증 필요
 			.and()
 			.exceptionHandling()
-			.authenticationEntryPoint(authEntryPoint); //인증실패 시 authEntryPoint로 처리
+			.authenticationEntryPoint(authEntryPoint) //인증실패 시 authEntryPoint로 처리
+			.and()
+			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 	//CORS설정을 정의하는 메서드 (무분별한 접근 막기)

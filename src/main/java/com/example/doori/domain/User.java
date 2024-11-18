@@ -35,7 +35,7 @@ public class User {
 	private String username; 
 	
 	// 회원 비밀번호
-	@Column(length = 30, nullable = false)
+	@Column(length = 500, nullable = false)
 	private String password; 
 	
 	// 이름
@@ -57,6 +57,5 @@ public class User {
 	
 	//Rolltype
 	@Enumerated(EnumType.STRING)
-	@ColumnDefault("'MEMBER'")
 	private RoleType role;
 }
