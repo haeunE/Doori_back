@@ -19,7 +19,6 @@ public class MovieController {
 	
 	@GetMapping("/doori/movies")
 	public ResponseEntity<?> movieinit() {
-		movieService.fetchAndSaveMovies("대한민국");
 		List<Movie> movieList = movieService.getMovieList();
 		return new ResponseEntity<>(movieList, HttpStatus.OK);
 	}
