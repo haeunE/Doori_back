@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.doori.domain.User;
 import com.example.doori.domain.UserCredentials;
 import com.example.doori.dto.UserDTO;
+import com.example.doori.dto.UserDTOPW;
 import com.example.doori.service.JwtService;
 import com.example.doori.service.UserService;
 
@@ -105,7 +106,7 @@ public class UserController {
     
 	// 회원정보 수정
     @PutMapping("/userupdate")
-    public ResponseEntity<?> userupdate(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
+    public ResponseEntity<?> userupdate(@Valid @RequestBody UserDTOPW userDTOPW, BindingResult bindingResult) {
         String username = getAuthenticatedUsername();  // JWT에서 username 추출
 
         // 유효성 검사
@@ -119,8 +120,8 @@ public class UserController {
 
         try {
             // 현재 비밀번호를 받아와서 검증
-            String currentPassword = userDTO.getCurrentPassword(); // DTO에서 현재 비밀번호 가져오기
-            User user = modelMapper.map(userDTO, User.class);  // DTO를 Entity로 변환
+            String currentPassword = userDTOPW.getCurrentPassword(); // DTO에서 현재 비밀번호 가져오기
+            User user = modelMapper.map(userDTOPW, User.class);  // DTO를 Entity로 변환
 
             // 회원 정보 수정 시 비밀번호를 포함하여 서비스에 전달
             userService.userUpdate(user, username, currentPassword);  // 서비스로 수정 요청
