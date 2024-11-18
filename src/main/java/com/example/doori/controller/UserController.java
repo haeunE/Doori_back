@@ -95,7 +95,7 @@ public class UserController {
     }
 	
     // 회원 정보 조회
-    @GetMapping("/user/details")
+    @GetMapping("/userupdate")
     public ResponseEntity<?> getUserDetails() {
         String username = getAuthenticatedUsername();
         Optional<User> user = userService.userDetail(username);
