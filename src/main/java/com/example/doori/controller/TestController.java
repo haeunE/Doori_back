@@ -91,6 +91,11 @@ public class TestController {
 	    	  if (poster == null || poster.trim().isEmpty()) {
 	    		    poster = "/img/non_img.png";
 	    		}
+	    	  int idx = poster.indexOf("|");
+	    	  if (idx != -1){
+	    		  poster=poster.substring(0,idx);
+	    	  }
+	    	  
 	    	  movie.setMoviePoster(poster);
 	    	  System.out.println("포스터 : "+poster);
 	    	  System.out.println(poster.length());

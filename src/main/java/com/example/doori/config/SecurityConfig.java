@@ -42,10 +42,10 @@ public class SecurityConfig {
 		http.authorizeRequests()
 			// (로그인, 로그아웃 , 홈 , 영화 목록)페이지 만 접근 가능
 
-			.antMatchers(HttpMethod.POST,"/doori/login","/doori/signup", "/doori/login/kakao","/doori/movies", "/doori/usernamecheck").permitAll()
+			.antMatchers(HttpMethod.POST,"/doori/login","/doori/signup", "/doori/login/kakao","/doori/movies/**", "/doori/usernamecheck").permitAll()
 			.antMatchers(HttpMethod.PUT,"doori/userupdate").permitAll()
 			.antMatchers(HttpMethod.DELETE, "doori/userdelete").permitAll()
-			.antMatchers(HttpMethod.GET,"/doori/home","doori/userupdate","/doori/movies","/doori/test").permitAll()
+			.antMatchers(HttpMethod.GET,"/doori/home","doori/userupdate","/doori/movies/**","/doori/test").permitAll()
 			.anyRequest().authenticated() //나머지 모든 요청은 인증 필요
 			.and()
 			.exceptionHandling()
