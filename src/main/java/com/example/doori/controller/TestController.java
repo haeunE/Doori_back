@@ -31,13 +31,14 @@ public class TestController {
 	   public List<Map<?, ?>> test3() {
 	      String url = "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?";
 	      url += "nation=대한민국";
+	      url += "&createDts=2020";
+	      url += "&listCount=20";
+//	      ------------------------------
 	      url += "&detail=Y";
 	      url += "&collection=kmdb_new2";
-	      url += "&createDts=2020";
-//	      url += "&sort=RANK";
-	      url += "&listCount=20";
 	      url += "&ServiceKey=6I52ZW551KNZ2Y10RM9J";
 	      url += "&type=극영화";
+//	      url += "&sort=RANK";
 	      
 	      RestTemplate restTemplate = new RestTemplate();
 	      
