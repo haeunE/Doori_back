@@ -47,7 +47,7 @@ public class TestController {
 	      Gson gson = new Gson();
 	      
 	      Map<?, ?> json = gson.fromJson(response, Map.class);
-//	      System.out.println(json);
+	      System.out.println(json);
 	      
 	      List<Map<?, ?>> data = (List<Map<?, ?>>) json.get("Data");
 	      
@@ -62,6 +62,7 @@ public class TestController {
 	    	  Map<?, ?> allplots = (Map<?, ?>) data.get(i).get("plots");
 	    	  List<Map<?, ?>> plots = (List<Map<?, ?>>)allplots.get("plot");
 	    	  System.out.println(plots);
+	    	  
 	    	  Map<?, ?> alldirectors = (Map<?, ?>) data.get(i).get("directors");
 	    	  List<Map<?, ?>> directors = (List<Map<?, ?>>)alldirectors.get("director");
 	    	  System.out.println(directors);
@@ -69,6 +70,7 @@ public class TestController {
 	    	  Map<?, ?> allactors = (Map<?, ?>) data.get(i).get("actors");
 	    	  List<Map<?, ?>> actors = (List<Map<?, ?>>)allactors.get("actor");
 	    	  String actor = "";
+	    	  
 	    	  for (int j=0; j<actors.size();j++) {
 	    		  if(j==0) 
 	    			  actor=(String)actors.get(0).get("actorNm");

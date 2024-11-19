@@ -75,17 +75,7 @@ public class UserService {
         if (user.getPassword() != null && !user.getPassword().isEmpty()) {
             existingUser.setPassword(passwordEncoder.encode(user.getPassword()));  // 새 비밀번호 암호화
         }
-        
-        // 3. 나머지 사용자 정보 업데이트
-        if (user.getName() != null) {
-            existingUser.setName(user.getName());
-        }
-        if (user.getEmail() != null) {
-            existingUser.setEmail(user.getEmail());
-        }
-        if (user.getTel() != null) {
-            existingUser.setTel(user.getTel());
-        }
+       
         
         // 4. 업데이트된 사용자 정보를 DB에 저장
         userRepository.save(existingUser);
