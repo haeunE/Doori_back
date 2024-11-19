@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -42,7 +43,8 @@ public class Movie {
 	private String director;
 	
 	//배우
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false)
+	@Size(max=1000)
 	private String actor;
 	
 	//줄거리
