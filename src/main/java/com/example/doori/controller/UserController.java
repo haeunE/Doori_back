@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.doori.domain.User;
@@ -65,17 +66,19 @@ public class UserController {
 	    }
 	}
 	
-	// 회원가입시 username 중복확인
-	@PostMapping("/usernamecheck")
-	public ResponseEntity<?> checkUsername(String username){
-		Optional<User> user =  userService.userDetail(username);
-		
-		if(user.isPresent()) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미 있는 아이디 입니다");
-		}
-		return ResponseEntity.status(HttpStatus.OK).body("사용가능한 아이디 입니다");
-	}
-
+	   // 회원가입시 username 중복확인
+	   @PostMapping("/usernamecheck")
+	   public ResponseEntity<?> checkUsername(@RequestParam String username) {
+	      System.out.println(username);
+	      
+	       Optional<User> user = userService.userDetail(username);
+	       
+	       if(user.isPresent()) {
+	           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미 있는 아이디 입니다");
+	       }
+	       
+	       return ResponseEntity.status(HttpStatus.OK).body("사용가능한 아이디 입니다");
+	   }
 	
 	// 로그인 구현부
 	@PostMapping("/login")

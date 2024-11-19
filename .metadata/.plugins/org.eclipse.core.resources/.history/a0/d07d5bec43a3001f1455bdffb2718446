@@ -1,0 +1,18 @@
+spring.application.name=doori
+
+# ìë² ì¤ì 
+server.port=8888
+server.servlet.context-path=/
+server.servlet.encoding.charset=UTF-8
+
+#DB
+spring.datasource.url=jdbc:mysql://localhost:3306/doori?useSSL=false&serverTimezone=Asia/Seoul
+spring.datasource.username=root
+spring.datasource.password=1234
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# JPA ì¤ì  (ì íì )
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialeㄱㄷㅁct=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.show_sql=true
