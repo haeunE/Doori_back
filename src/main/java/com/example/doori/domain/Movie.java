@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +31,7 @@ public class Movie {
 	
 	//시간(분)
 	@Column(nullable = false)
-	private Integer movieRunningtime;
+	private String runningtime;
 	
 	//제목
 	@Column(nullable = false, unique=true, length = 500)
@@ -55,6 +58,7 @@ public class Movie {
 	private String genre;
 	
 	//심의여부
-	@Column(nullable = false, length = 1)
+	@Column(nullable = false, length = 30)
+	@ColumnDefault("'all'")
 	private String ratedYn;
 }
