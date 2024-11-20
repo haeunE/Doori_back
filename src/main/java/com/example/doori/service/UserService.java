@@ -49,50 +49,28 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    // 현재 비밀번호 검증
-    private boolean checkPassword(String currentPassword, String username) {
-        Optional<User> userOpt = userRepository.findByUsername(username);
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-            // DB에 저장된 비밀번호와 사용자가 제출한 비밀번호 비교
-            return passwordEncoder.matches(currentPassword, user.getPassword());
-        }
-        return false;  // 사용자가 존재하지 않으면 false 반환
-    }
-
-    // 회원정보 수정 - username으로 찾기 (현재 비밀번호 확인 포함)
-    public void userUpdate(User user, String username, String currentPassword) {
-        // 1. 현재 비밀번호 검증
-        User existingUser = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-        
-        // 비밀번호 확인
-        if (!passwordEncoder.matches(currentPassword, existingUser.getPassword())) {
-            throw new IllegalArgumentException("현재 비밀번호가 잘못되었습니다.");
-        }
-        
-        // 2. 새 비밀번호가 있는 경우, 비밀번호 업데이트
-        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            existingUser.setPassword(passwordEncoder.encode(user.getPassword()));  // 새 비밀번호 암호화
-        }
-        
-        // 3. 나머지 사용자 정보 업데이트
-        if (user.getName() != null) {
-            existingUser.setName(user.getName());
-        }
-        if (user.getEmail() != null) {
-            existingUser.setEmail(user.getEmail());
-        }
-        if (user.getTel() != null) {
-            existingUser.setTel(user.getTel());
-        }
-        
-        // 4. 업데이트된 사용자 정보를 DB에 저장
-        userRepository.save(existingUser);
+    // 현재 비밀번호 검증   
+    public boolean checkPassword(String password, String username) {
+    	User user = userRepository.findByUsername(username).get();
+    	if(passwordEncoder.matches(password, user.getPassword())) {
+    		return true;
+    	}
+    	 return false; 	
     }
     
+    
+    // 회원 비밀번호 수정
+    public void userUpdate(String username, String newPassword) {
+    	User user = userRepository.findByUsername(username).get();
+    	user.setPassword(passwordEncoder.encode(newPassword));
+ 
+    	userRepository.save(user);
+    }
+    
+    
+    
     // 회원 탈퇴 처리
-    public void deleteUser(String username) {
+    public void userDelete(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
