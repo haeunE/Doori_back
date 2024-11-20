@@ -130,7 +130,7 @@ public class UserController {
     
     // 비밀번호 변경
     @PutMapping("/userupdate")
-    public ResponseEntity<?> userUpdate(@Valid UserDTOPW userDTOPW, BindingResult bingResult){
+    public ResponseEntity<?> userUpdate(@Valid @RequestBody UserDTOPW userDTOPW, BindingResult bingResult){
     	if(bingResult.hasErrors()) {
     		FieldError errorMessage = bingResult.getFieldError();
     		return new ResponseEntity<>(errorMessage.getDefaultMessage(), HttpStatus.BAD_REQUEST);
