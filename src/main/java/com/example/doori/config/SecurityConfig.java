@@ -44,7 +44,8 @@ public class SecurityConfig {
 			.antMatchers(HttpMethod.POST,"/doori/login","/doori/signup", "/doori/userupdate", "/doori/login/kakao", "/doori/usernamecheck", "/doori/userverify").permitAll()
 			.antMatchers(HttpMethod.PUT,"/doori/userupdate").permitAll()
 			.antMatchers(HttpMethod.DELETE, "/doori/userdelete").permitAll()
-			.antMatchers(HttpMethod.GET,"/doori/home","/doori/userupdate").permitAll()
+			.antMatchers(HttpMethod.GET,"/doori/home","/doori/userupdate","/doori/movies/**","/doori/test").permitAll()
+
 			.anyRequest().authenticated() //나머지 모든 요청은 인증 필요
 			.and()
 			.exceptionHandling()
