@@ -18,6 +18,9 @@ public class UserDTO implements Serializable {
     @NotNull(message = "비밀번호를 입력하세요.")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,30}$", message = "비밀번호는 8~30자, 문자와 숫자를 포함해야 합니다.")
     private String password;
+    
+//    @NotNull(message = "비밀번호를 다시 입력하세요.")
+//    private String passwordCheck;  // 비밀번호 확인 필드 추가
 
     @NotNull(message = "이름을 입력하세요.")
     @Pattern(regexp = "^[A-Za-z가-힣]{1,10}$", message = "이름은 한글 또는 영문, 10자 이하로 입력하세요.")

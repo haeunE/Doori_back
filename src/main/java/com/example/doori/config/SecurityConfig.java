@@ -41,10 +41,10 @@ public class SecurityConfig {
 		//엔드포인트 접근 권한 설정 ( 첫 접속 포인트 )
 		http.authorizeRequests()
 			// (로그인, 로그아웃 , 홈 , 영화 목록)페이지 만 접근 가능
-			.antMatchers(HttpMethod.POST,"/doori/login","/doori/signup", "/doori/login/kakao", "/doori/usernamecheck").permitAll()
-			.antMatchers(HttpMethod.PUT,"doori/userupdate").permitAll()
-			.antMatchers(HttpMethod.DELETE, "doori/userdelete").permitAll()
-			.antMatchers(HttpMethod.GET,"/doori/home","doori/userupdate").permitAll()
+			.antMatchers(HttpMethod.POST,"/doori/login","/doori/signup", "/doori/userupdate", "/doori/login/kakao", "/doori/usernamecheck", "/doori/userverify").permitAll()
+			.antMatchers(HttpMethod.PUT,"/doori/userupdate").permitAll()
+			.antMatchers(HttpMethod.DELETE, "/doori/userdelete").permitAll()
+			.antMatchers(HttpMethod.GET,"/doori/home","/doori/userupdate").permitAll()
 			.anyRequest().authenticated() //나머지 모든 요청은 인증 필요
 			.and()
 			.exceptionHandling()

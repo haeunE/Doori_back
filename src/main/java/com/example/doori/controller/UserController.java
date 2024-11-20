@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,7 @@ import lombok.RequiredArgsConstructor;
 @RestController // contoller + responsebody 역
 @RequiredArgsConstructor // final로 autoworid없이 의존성 주입 가능
 @RequestMapping("/doori")  // 페이지들 doori로 시작 
+@CrossOrigin(origins = "http://localhost:3000")  // 클라이언트 도메인 허용
 public class UserController {
 
 	private final UserService userService;
