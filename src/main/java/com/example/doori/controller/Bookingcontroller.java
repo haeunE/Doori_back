@@ -42,10 +42,11 @@ public class Bookingcontroller {
 	}
 	
 	// user에 따른 예약정보에 대한 method
+	// map 으로 변경해서 key + value
 	@GetMapping("/myreservations")
 	public ResponseEntity<?> userReservations(){
-		List<Reservation> r = bookingService.getReservationInfo();
-		return new ResponseEntity<>(r,HttpStatus.OK);
+			bookingService.getReservationInfo();
+		return new ResponseEntity<>("",HttpStatus.OK);
 	}
 	
 	

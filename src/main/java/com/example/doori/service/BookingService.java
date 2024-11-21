@@ -1,6 +1,7 @@
 package com.example.doori.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,8 +90,9 @@ public class BookingService {
     }
     
     // user가 가진 reservation가져오기
-    public List<Reservation> getReservationInfo(){
+    public void getReservationInfo(){
     	User user = getUser();
-    	return reservationRepository.findByUserId(user);
+    	List<Object[]> info = seatRepository.findSeatsGroupedByReservation(user.getId());
+    	// timetableId..?어떻게 저장해 ㅠㅠㅠ
     }
 }
