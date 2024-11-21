@@ -1,6 +1,8 @@
 package com.example.doori.service;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -19,13 +21,13 @@ public class ReservationService {
 	private TimetableRepository timetableRepository; 
 	
 	
-	public List<Timetable> getTimetableByDate(String inputDate) throws ParseException {
+	public List<Timetable> stringToTimestamp(String inputDate) throws ParseException {
         // 날짜 변환
-        String formattedDate = DateUtil.convertToDateString(
-        		DateUtil.convertToTimestamp(inputDate)
-        );
+		System.out.println(inputDate);
+        DateFormat df = new SimpleDateFormat("yy-MM-dd");
+        System.out.println(df);
         // DB 조회
-        return timetableRepository.findByDate(formattedDate);
+        return timetableRepository.findByDate(df);
     }
 
 }

@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.doori.domain.Movie;
@@ -34,9 +35,12 @@ public class ReservationController {
 		return new ResponseEntity<>(movieList, HttpStatus.OK);
 	}
 	@PostMapping("/doori/reservation")
-	public ResponseEntity<?> screanMovies(String request) {
+	public ResponseEntity<?> screanMovies(@RequestBody Map<String, String> request) {
 		try {
-			List<?> date = reservationService.getTimetableByDate(request);
+			String text = request.get("String");
+			System.out.println(text);
+			List<?> date = reservationService.getTimetableByDate(text);
+			System.out.println(date);
 			return new ResponseEntity<>(date, HttpStatus.OK);
 		}catch (ParseException e) {
 			return ResponseEntity.badRequest().body("Invalid date format. Please use 'yy-MM-dd'.");

@@ -1,6 +1,7 @@
 package com.example.doori.repository;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,6 @@ import com.example.doori.domain.Timetable;
 @Repository
 public interface TimetableRepository extends JpaRepository<Timetable,Integer>{
 	@Query("SELECT t FROM Timetable t WHERE FUNCTION('DATE', t.movieDate) = :date")
-    List<Timetable> findByDate(@Param("date") String date);
+    List<Timetable> findByDate(@Param("date") Timestamp date);
 
 }
