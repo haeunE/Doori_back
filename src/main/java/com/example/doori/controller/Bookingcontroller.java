@@ -26,10 +26,10 @@ public class Bookingcontroller {
 		return new ResponseEntity<>("예약완료 되었습니다", HttpStatus.OK);
 	}
 	
-	
-	@GetMapping("/reservation/seats")
-	public ResponseEntity<?> reservedSeat(){
-		
-	}
+//	
+//	@GetMapping("/reservation/seats")
+//	public ResponseEntity<?> reservedSeat(){
+//		
+//	}
 
 }
