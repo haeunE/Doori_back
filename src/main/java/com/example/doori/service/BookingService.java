@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.mapping.Array;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -61,7 +62,8 @@ public class BookingService {
     	User user = getUser();
     	Reservation reservation = new Reservation();
     	reservation.setPrice(price);
-    	reservation.setTimetable(getTimetable(timetableId));
+    	reservation.setTimetableId(getTimetable(timetableId));
+    	reservation.setUserId(user);
     	return reservationRepository.save(reservation);   	
     }
     
@@ -70,31 +72,25 @@ public class BookingService {
     public void saveBooking(BookingDTO bookingDTO) {
     	List<Seat> seatList = new ArrayList<>();
     	
-    	for(int i=0; i<bookingDTO.getSeatNB().size();i++) {
+    	for(int i=0; i<bookingDTO.getSeatNb().size();i++) {
     		Reservation reservationId = saveReservation(bookingDTO.getPrice(), bookingDTO.getTimetableId());
     	    
     		Seat seat = new Seat();
-    		
-    		seat.setSeatNb(bookingDTO.getSeatNB().get(i));
-    		seat.setReservation(reservationId);
+    		seat.setSeatNb(bookingDTO.getSeatNb().get(i));
+    		seat.setReservationId(reservationId);
     		
     		seatRepository.save(seat);	    
     	}
     }
     
-    // timetable정보로 reservedSeat가져오기
+    // 예약된 seat가져오기
     public List<String> getReservedSeat(Integer timetableId){
-    	List<String> reservedSeat = new ArrayList<>(); // seat저장 하는 List
-    		
-    	Timetable t = getTimetable(timetableId);
-    	List<Reservation> rList = reservationRepository.findByTimetable(t);
-    	
-    	for(int i=0; i<rList.size();i++) {
-    		List<Seat> setList = seatRepository.findByReservation(rList.get(i));
-    		for(int j=0; j<setList.size();j++) {
-    			reservedSeat.add(setList.get(j).getSeatNb()); 
-    		}
-    	}
-    	return reservedSeat;
+    	return seatRepository.findByTimetableId(getTimetable(timetableId));
+    }
+    
+    // user가 가진 reservation가져오기
+    public List<Reservation> getReservationInfo(){
+    	User user = getUser();
+    	return reservationRepository.findByUserId(user);
     }
 }

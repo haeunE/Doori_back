@@ -39,10 +39,10 @@ public class Reservation {
 	//회원 정보 - userId(fk)
 	@ManyToOne
 	@JoinColumn(name = "USER_ID", nullable = false)//join으로 한 회원의 예약정보 가져오기 위해
-	private User user;
+	private User userId;
 	
 	//예약 영화 정보-tableTableId(fk)
 	@ManyToOne
 	@JoinColumn(name = "TIMETABLE_ID", nullable = false) // 예약한 영화 및 시간대 정보 가져오기
-	private Timetable timetable;
+	private Timetable timetableId;
 }
