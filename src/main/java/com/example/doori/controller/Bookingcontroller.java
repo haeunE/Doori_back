@@ -1,5 +1,7 @@
 package com.example.doori.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ public class Bookingcontroller {
 	@Autowired
 	private BookingService bookingService;
 	
+	//seat에 대한 method
+	// booking시 reservation, seat 컬럼 생성 됨
 	@PostMapping("/booking")
 	public ResponseEntity<?> booking(@RequestBody BookingDTO bookingDTO){
 		
@@ -26,10 +30,16 @@ public class Bookingcontroller {
 		return new ResponseEntity<>("예약완료 되었습니다", HttpStatus.OK);
 	}
 	
-//	
-//	@GetMapping("/reservation/seats")
-//	public ResponseEntity<?> reservedSeat(){
-//		작업예정
-//	}
+	// reserved seat 보여줌
+	@GetMapping("/reservation/seats")
+	public ResponseEntity<?> reservedSeat(@RequestBody Integer timetableId){
+		List<String> reservedSeat = bookingService.getReservedSeat(timetableId);
+		return new ResponseEntity<>(reservedSeat, HttpStatus.OK);
+	}
+	
+	// 예약정보에 대한 method
+	
+	
+	
 
 }

@@ -61,7 +61,7 @@ public class BookingService {
     	User user = getUser();
     	Reservation reservation = new Reservation();
     	reservation.setPrice(price);
-    	reservation.setTimetableId(getTimetable(timetableId));
+    	reservation.setTimetable(getTimetable(timetableId));
     	return reservationRepository.save(reservation);   	
     }
     
@@ -76,9 +76,25 @@ public class BookingService {
     		Seat seat = new Seat();
     		
     		seat.setSeatNb(bookingDTO.getSeatNB().get(i));
-    		seat.setReservationId(reservationId);
+    		seat.setReservation(reservationId);
     		
     		seatRepository.save(seat);	    
     	}
+    }
+    
+    // timetable정보로 reservedSeat가져오기
+    public List<String> getReservedSeat(Integer timetableId){
+    	List<String> reservedSeat = new ArrayList<>(); // seat저장 하는 List
+    		
+    	Timetable t = getTimetable(timetableId);
+    	List<Reservation> rList = reservationRepository.findByTimetable(t);
+    	
+    	for(int i=0; i<rList.size();i++) {
+    		List<Seat> setList = seatRepository.findByReservation(rList.get(i));
+    		for(int j=0; j<setList.size();j++) {
+    			reservedSeat.add(setList.get(j).getSeatNb()); 
+    		}
+    	}
+    	return reservedSeat;
     }
 }

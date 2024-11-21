@@ -10,5 +10,5 @@ import com.example.doori.domain.Seat;
 
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Integer>{
-
+	List<Seat> findByReservation(Reservation reservation);
 }

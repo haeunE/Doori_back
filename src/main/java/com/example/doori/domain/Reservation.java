@@ -44,5 +44,5 @@ public class Reservation {
 	//예약 영화 정보-tableTableId(fk)
 	@ManyToOne
 	@JoinColumn(name = "TIMETABLE_ID", nullable = false) // 예약한 영화 및 시간대 정보 가져오기
-	private Timetable timetableId;
+	private Timetable timetable;
 }

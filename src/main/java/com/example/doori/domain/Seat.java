@@ -30,5 +30,5 @@ public class Seat {
 	//예약번호
 	@ManyToOne
 	@JoinColumn(name="RESERVATION_ID", nullable = false) // 예약테이블과 조인하여 좌석 수 계산 및 남은 좌석 확인 가능
-	private Reservation reservationId;
+	private Reservation reservation;
 }
