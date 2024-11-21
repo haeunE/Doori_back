@@ -29,7 +29,7 @@ public class Reservation {
 	private Integer id;
 	
 	//결제 총가격
-	@Column(nullable = false, length = 8)
+	@Column(nullable = false)
 	private String price;
 	
 	//결제일
