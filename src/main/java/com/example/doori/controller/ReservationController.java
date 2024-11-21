@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.doori.domain.Movie;
+import com.example.doori.domain.Timetable;
 import com.example.doori.filter.DateUtil;
 import com.example.doori.service.MovieService;
 import com.example.doori.service.ReservationService;
@@ -39,9 +40,11 @@ public class ReservationController {
 		try {
 			String text = request.get("String");
 			System.out.println(text);
-			List<?> date = reservationService.getTimetableByDate(text);
+			List<Timetable> date = reservationService.stringToTimestamp(text);
 			System.out.println(date);
-			return new ResponseEntity<>(date, HttpStatus.OK);
+
+			
+			return new ResponseEntity<>( date, HttpStatus.OK);
 		}catch (ParseException e) {
 			return ResponseEntity.badRequest().body("Invalid date format. Please use 'yy-MM-dd'.");
 		}

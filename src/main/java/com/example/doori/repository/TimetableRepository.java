@@ -16,7 +16,7 @@ import com.example.doori.domain.Timetable;
 
 @Repository
 public interface TimetableRepository extends JpaRepository<Timetable,Integer>{
-	@Query("SELECT t FROM Timetable t WHERE FUNCTION('DATE', t.movieDate) = :date")
+	@Query("SELECT t FROM Timetable t WHERE FUNCTION('DATE', t.movieDate) = :date ORDER BY t.movieDate asc")
     List<Timetable> findByDate(@Param("date") Timestamp date);
 
 }
