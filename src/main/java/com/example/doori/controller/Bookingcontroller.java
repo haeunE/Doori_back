@@ -29,7 +29,7 @@ public class Bookingcontroller {
 //	
 //	@GetMapping("/reservation/seats")
 //	public ResponseEntity<?> reservedSeat(){
-//		
+//		작업예정
 //	}
 
 }
