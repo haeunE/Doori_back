@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.example.doori.domain.Movie;
+import com.example.doori.domain.Timetable;
 import com.example.doori.repository.MovieRepository;
 
 
@@ -24,5 +25,6 @@ public class MovieService {
 	public Optional<Movie> getMovie(Integer id) {
 		return movieRepository.findById(id);
 	}
+	
 	
 }
