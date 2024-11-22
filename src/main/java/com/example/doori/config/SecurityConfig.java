@@ -51,7 +51,6 @@ public class SecurityConfig {
 					"/doori/login","/doori/signup", "/doori/login/kakao", "/doori/usernamecheck",
 					"/doori/movies/**","/doori/booking","/doori/reservation"
 					).permitAll()
-
 			.antMatchers(HttpMethod.PUT,"/doori/userupdate").permitAll()
 			.antMatchers(HttpMethod.DELETE, "/doori/userdelete").permitAll()
 
