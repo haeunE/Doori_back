@@ -94,5 +94,12 @@ public class BookingService {
     	User user = getUser();
     	List<Object[]> info = seatRepository.findSeatsGroupedByReservation(user.getId());
     	// timetableId..?어떻게 저장해 ㅠㅠㅠ
+    	
+    	for(Object o : info) {
+    		System.out.println(o);
+    		System.out.println();
+    	}
+    	
+    	
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.doori.domain.Reservation;
 import com.example.doori.dto.BookingDTO;
+import com.example.doori.repository.ReservationRepository;
 import com.example.doori.service.BookingService;
 
 @RestController
@@ -23,6 +24,8 @@ public class Bookingcontroller {
 	@Autowired
 	private BookingService bookingService;
 	
+	@Autowired
+	private ReservationRepository reservationRepository;
 	//seat에 대한 method
 	// booking시 reservation, seat 컬럼 생성 됨
 	@PostMapping("/booking")
@@ -45,7 +48,12 @@ public class Bookingcontroller {
 	// map 으로 변경해서 key + value
 	@GetMapping("/myreservations")
 	public ResponseEntity<?> userReservations(){
-			bookingService.getReservationInfo();
+		List<Reservation> list = reservationRepository.findByUserId(bookingService.getUser());
+
+		for(Reservation r : list) {
+			System.out.println(r);
+		}
+//			bookingService.getReservationInfo();
 		return new ResponseEntity<>("",HttpStatus.OK);
 	}
 	
