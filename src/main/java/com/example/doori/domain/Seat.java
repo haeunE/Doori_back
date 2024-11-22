@@ -2,6 +2,7 @@ package com.example.doori.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +12,7 @@ import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -28,7 +30,8 @@ public class Seat {
 	private String seatNb;
 	
 	//예약번호
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="RESERVATION_ID", nullable = false) // 예약테이블과 조인하여 좌석 수 계산 및 남은 좌석 확인 가능
+	@ToString.Exclude
 	private Reservation reservationId;
 }

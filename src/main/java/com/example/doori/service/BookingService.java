@@ -2,8 +2,10 @@ package com.example.doori.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import com.example.doori.domain.Seat;
 import com.example.doori.domain.Timetable;
 import com.example.doori.domain.User;
 import com.example.doori.dto.BookingDTO;
+import com.example.doori.dto.ReservationDTO;
 import com.example.doori.repository.ReservationRepository;
 import com.example.doori.repository.SeatRepository;
 import com.example.doori.repository.TimetableRepository;
@@ -89,10 +92,33 @@ public class BookingService {
     	return seatRepository.findByTimetableId(getTimetable(timetableId));
     }
     
+    
     // user가 가진 reservation가져오기
-    public void getReservationInfo(){
+    public List<ReservationDTO> getReservationInfo(){
     	User user = getUser();
-    	List<Object[]> info = seatRepository.findSeatsGroupedByReservation(user.getId());
-    	// timetableId..?어떻게 저장해 ㅠㅠㅠ
+    	List<Reservation> reservations = reservationRepository.findByUserId(user);
+    	
+    	// reservationDTO에 필요한 정보들만 저장
+    	List<ReservationDTO> rLists = new ArrayList<>();
+    	for(Reservation r : reservations) {
+    		ReservationDTO dto = new ReservationDTO();
+    		dto.setMoviePoster(r.getTimetableId().getMovieId().getMoviePoster());
+    		dto.setTitile(r.getTimetableId().getMovieId().getTitle());
+    		dto.setRunningtime(r.getTimetableId().getMovieId().getRunningtime());
+    		dto.setMovieDate(r.getTimetableId().getMovieDate());
+    		dto.setReservationId(r.getId());
+    		dto.setPrice(r.getPrice());
+    		
+    		// 좌석 번호만 추출해서 DTO에 추가
+    		List<String> seatNm = r.getSeatList().stream()
+    				.map(Seat::getSeatNb)
+    				.collect(Collectors.toList());
+    		dto.setSeatNm(seatNm);
+    		
+    		rLists.add(dto);
+    	}
+    	return rLists;
     }
+    
+
 }
