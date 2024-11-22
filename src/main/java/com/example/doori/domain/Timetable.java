@@ -1,5 +1,6 @@
 package com.example.doori.domain;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -27,7 +28,7 @@ public class Timetable {
 	
 	//상영 날짜 시간
 	@Column(nullable = false, length = 50)
-	private Date movieDate;
+	private Timestamp movieDate;
 	
 	//영화정보 - movieId(fk)
 	@ManyToOne
