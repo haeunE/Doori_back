@@ -19,9 +19,12 @@ import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -52,7 +55,9 @@ public class Reservation {
 	private Timetable timetableId;
 	
 	// seat 좌석 정보를 뽑아내기 위한 양방향 관계 설정
-	@OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "reservationId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@OrderBy("id desc")
+	@ToString.Exclude
+	@JsonIgnore
 	private List<Seat> seatList;
 }
