@@ -1,10 +1,12 @@
 package com.example.doori.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.mapping.Array;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -62,6 +64,7 @@ public class BookingService {
     	Reservation reservation = new Reservation();
     	reservation.setPrice(price);
     	reservation.setTimetableId(getTimetable(timetableId));
+    	reservation.setUserId(user);
     	return reservationRepository.save(reservation);   	
     }
     
@@ -70,15 +73,26 @@ public class BookingService {
     public void saveBooking(BookingDTO bookingDTO) {
     	List<Seat> seatList = new ArrayList<>();
     	
-    	for(int i=0; i<bookingDTO.getSeatNB().size();i++) {
+    	for(int i=0; i<bookingDTO.getSeatNb().size();i++) {
     		Reservation reservationId = saveReservation(bookingDTO.getPrice(), bookingDTO.getTimetableId());
     	    
     		Seat seat = new Seat();
-    		
-    		seat.setSeatNb(bookingDTO.getSeatNB().get(i));
+    		seat.setSeatNb(bookingDTO.getSeatNb().get(i));
     		seat.setReservationId(reservationId);
     		
     		seatRepository.save(seat);	    
     	}
+    }
+    
+    // 예약된 seat가져오기
+    public List<String> getReservedSeat(Integer timetableId){
+    	return seatRepository.findByTimetableId(getTimetable(timetableId));
+    }
+    
+    // user가 가진 reservation가져오기
+    public void getReservationInfo(){
+    	User user = getUser();
+    	List<Object[]> info = seatRepository.findSeatsGroupedByReservation(user.getId());
+    	// timetableId..?어떻게 저장해 ㅠㅠㅠ
     }
 }
