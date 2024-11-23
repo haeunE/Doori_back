@@ -48,8 +48,9 @@ public class Bookingcontroller {
 	// user에 따른 예약정보에 대한 method
 	@GetMapping("/myreservation")
 	public ResponseEntity<?> userReservations(){
-		List<ReservationDTO> rLists = bookingService.getReservationInfo();		
-		return new ResponseEntity<>(rLists, HttpStatus.OK);
+		List<ReservationDTO> reservationList = bookingService.getReservationInfo();	
+
+		return new ResponseEntity<>(reservationList, HttpStatus.OK);
 	}
 	
 	
