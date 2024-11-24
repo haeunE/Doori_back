@@ -20,6 +20,7 @@ public class ReservationDTO {
 	private String title; // movie 내부
 	private String runningtime; // movie 내부
 	private Date movieDate; // timetable 내부 - 영화 시작 시간
+	private Integer movieId; // review에 보내줄 movie정보들 보내 줘야 함
 	
 	
 	// 예약 정보
@@ -27,5 +28,7 @@ public class ReservationDTO {
 	private Timestamp createDate; // 결제일
 	private String price; // reservation 내부
 	private List<String> seatNm; // seat 내부
+	
+	private List<Integer> reservationId;
 	
 }

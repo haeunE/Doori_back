@@ -112,21 +112,29 @@ public class BookingService {
     		if(dto==null) {
     		dto = new ReservationDTO();
     		dto.setTimetableId(r.getTimetableId().getId());
+    		dto.setMovieId(r.getTimetableId().getMovieId().getId()); // 영화 id보내 주기
     		dto.setMoviePoster(r.getTimetableId().getMovieId().getMoviePoster());
     		dto.setTitle(r.getTimetableId().getMovieId().getTitle());
     		dto.setRunningtime(r.getTimetableId().getMovieId().getRunningtime());
     		dto.setMovieDate(r.getTimetableId().getMovieDate());
     		dto.setPrice(r.getPrice());
     		dto.setSeatNm(new ArrayList<>());  // 좌석 리스트 초기화
+    		dto.setReservationId(new ArrayList<>()); // 예약 id 리스트 초기화
     		}
     		for(Seat s : r.getSeatList()) {
     			dto.getSeatNm().add(s.getSeatNb());
     		}
+    		dto.getReservationId().add(r.getId());
             timetableMap.put(timetableId, dto);
     	}
     	 List<ReservationDTO> reservationList = new ArrayList<>(timetableMap.values());
     	return reservationList;
     }
     
+    public void reservationDelete(List<Integer> reservationIds) {
+    	for(Integer id : reservationIds) {
+    		reservationRepository.deleteById(id);
+    	}
+    }
 
 }
