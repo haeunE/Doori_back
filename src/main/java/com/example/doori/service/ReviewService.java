@@ -21,9 +21,11 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
-	
+	@Autowired
 	private final UserRepository userRepository;
+	@Autowired
 	private final MovieRepository movieRepository;
+	@Autowired
 	private final ReviewRepository reviewRepository;
 	
 	
@@ -64,8 +66,10 @@ public class ReviewService {
 		List<Review> reviewList = reviewRepository.findByUserId(user);
 		return reviewList;
 	}
-	public List<Review> findbymovie(Integer movieId){
+	public List<Review> findbymovie(Movie movieId){
+		System.out.println(movieId);
 		List<Review> reviewList = reviewRepository.findByMovieId(movieId);
+		System.out.println(reviewList);
 		return reviewList;
 	}
 	
