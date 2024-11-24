@@ -44,14 +44,16 @@ public class SecurityConfig {
 
 
 			.antMatchers(HttpMethod.GET,
-					"/doori/home","doori/userupdate","/doori/movies/**","/doori/test", "/doori/reservation/**"
+					"/doori/home","doori/userupdate","/doori/movies/**","/doori/test", 
+					"/doori/reservation/**", "/doori/myreservation",
+					 "/doori/myreviews","/doori/**/reviews","/doori/reviews"
 					).permitAll()
 			.antMatchers(HttpMethod.POST,
 					"/doori/login","/doori/signup", "/doori/login/kakao", "/doori/usernamecheck",
 					"/doori/movies/**","/doori/booking","/doori/reservation"
 					).permitAll()
-			.antMatchers(HttpMethod.PUT,"doori/userupdate").permitAll()
-			.antMatchers(HttpMethod.DELETE, "doori/userdelete").permitAll()
+			.antMatchers(HttpMethod.PUT,"/doori/userupdate","/doori/myreviews").permitAll()
+			.antMatchers(HttpMethod.DELETE, "/doori/userdelete","/doori/myreviews","/doori/reservation/delete").permitAll()
 
 			.anyRequest().authenticated() //나머지 모든 요청은 인증 필요
 			.and()

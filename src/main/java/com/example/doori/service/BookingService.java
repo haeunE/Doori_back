@@ -2,8 +2,11 @@ package com.example.doori.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import com.example.doori.domain.Seat;
 import com.example.doori.domain.Timetable;
 import com.example.doori.domain.User;
 import com.example.doori.dto.BookingDTO;
+import com.example.doori.dto.ReservationDTO;
 import com.example.doori.repository.ReservationRepository;
 import com.example.doori.repository.SeatRepository;
 import com.example.doori.repository.TimetableRepository;
@@ -89,10 +93,48 @@ public class BookingService {
     	return seatRepository.findByTimetableId(getTimetable(timetableId));
     }
     
+    
     // user가 가진 reservation가져오기
-    public void getReservationInfo(){
+    public List<ReservationDTO> getReservationInfo(){
     	User user = getUser();
-    	List<Object[]> info = seatRepository.findSeatsGroupedByReservation(user.getId());
-    	// timetableId..?어떻게 저장해 ㅠㅠㅠ
+    	List<Reservation> reservations = reservationRepository.findByUserId(user);
+    	
+    	// reservationDTO에 필요한 정보들만 저장
+    	List<ReservationDTO> rLists = new ArrayList<>();
+    	// timetable이 동일할때 reservationDTO여러번 생성 방지
+    	Map<Integer, ReservationDTO> timetableMap = new HashMap<>();
+    
+    	
+    	for(Reservation r : reservations) {
+    		Integer timetableId = r.getTimetableId().getId(); 		
+    		ReservationDTO dto = timetableMap.get(timetableId);
+    		
+    		if(dto==null) {
+    		dto = new ReservationDTO();
+    		dto.setTimetableId(r.getTimetableId().getId());
+    		dto.setMovieId(r.getTimetableId().getMovieId().getId()); // 영화 id보내 주기
+    		dto.setMoviePoster(r.getTimetableId().getMovieId().getMoviePoster());
+    		dto.setTitle(r.getTimetableId().getMovieId().getTitle());
+    		dto.setRunningtime(r.getTimetableId().getMovieId().getRunningtime());
+    		dto.setMovieDate(r.getTimetableId().getMovieDate());
+    		dto.setPrice(r.getPrice());
+    		dto.setSeatNm(new ArrayList<>());  // 좌석 리스트 초기화
+    		dto.setReservationId(new ArrayList<>()); // 예약 id 리스트 초기화
+    		}
+    		for(Seat s : r.getSeatList()) {
+    			dto.getSeatNm().add(s.getSeatNb());
+    		}
+    		dto.getReservationId().add(r.getId());
+            timetableMap.put(timetableId, dto);
+    	}
+    	 List<ReservationDTO> reservationList = new ArrayList<>(timetableMap.values());
+    	return reservationList;
     }
+    
+    public void reservationDelete(List<Integer> reservationIds) {
+    	for(Integer id : reservationIds) {
+    		reservationRepository.deleteById(id);
+    	}
+    }
+
 }

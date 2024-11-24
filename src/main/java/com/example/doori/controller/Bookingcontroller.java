@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.doori.domain.Reservation;
 import com.example.doori.dto.BookingDTO;
+import com.example.doori.dto.ReservationDTO;
+import com.example.doori.repository.ReservationRepository;
 import com.example.doori.service.BookingService;
 
 @RestController
@@ -23,6 +26,8 @@ public class Bookingcontroller {
 	@Autowired
 	private BookingService bookingService;
 	
+	@Autowired
+	private ReservationRepository reservationRepository;
 	//seat에 대한 method
 	// booking시 reservation, seat 컬럼 생성 됨
 	@PostMapping("/booking")
@@ -42,13 +47,18 @@ public class Bookingcontroller {
 	}
 	
 	// user에 따른 예약정보에 대한 method
-	// map 으로 변경해서 key + value
-	@GetMapping("/myreservations")
+	@GetMapping("/myreservation")
 	public ResponseEntity<?> userReservations(){
-			bookingService.getReservationInfo();
-		return new ResponseEntity<>("",HttpStatus.OK);
+		List<ReservationDTO> reservationList = bookingService.getReservationInfo();	
+
+		return new ResponseEntity<>(reservationList, HttpStatus.OK);
 	}
 	
+	@DeleteMapping("/reservation/delete")
+	public ResponseEntity<?> reservationDelete(@RequestBody List<Integer> reservationIds){
+		bookingService.reservationDelete(reservationIds);
+		return new ResponseEntity<>("취소 완료 되었습니다.", HttpStatus.OK);
+	}
 	
 
 }

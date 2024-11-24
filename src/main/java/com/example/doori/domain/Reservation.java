@@ -3,20 +3,28 @@ package com.example.doori.domain;
 
 
 import java.sql.Timestamp;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -45,4 +53,11 @@ public class Reservation {
 	@ManyToOne
 	@JoinColumn(name = "TIMETABLE_ID", nullable = false) // 예약한 영화 및 시간대 정보 가져오기
 	private Timetable timetableId;
+	
+	// seat 좌석 정보를 뽑아내기 위한 양방향 관계 설정
+	@OneToMany(mappedBy = "reservationId", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OrderBy("id desc")
+	@ToString.Exclude
+	@JsonIgnore
+	private List<Seat> seatList;
 }
