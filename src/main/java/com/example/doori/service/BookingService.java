@@ -2,8 +2,9 @@ package com.example.doori.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -100,25 +101,40 @@ public class BookingService {
     	
     	// reservationDTO에 필요한 정보들만 저장
     	List<ReservationDTO> rLists = new ArrayList<>();
+    	// timetable이 동일할때 reservationDTO여러번 생성 방지
+    	Map<Integer, ReservationDTO> timetableMap = new HashMap<>();
+    
+    	
     	for(Reservation r : reservations) {
-    		ReservationDTO dto = new ReservationDTO();
+    		Integer timetableId = r.getTimetableId().getId(); 		
+    		ReservationDTO dto = timetableMap.get(timetableId);
+    		
+    		if(dto==null) {
+    		dto = new ReservationDTO();
+    		dto.setTimetableId(r.getTimetableId().getId());
+    		dto.setMovieId(r.getTimetableId().getMovieId().getId()); // 영화 id보내 주기
     		dto.setMoviePoster(r.getTimetableId().getMovieId().getMoviePoster());
-    		dto.setTitile(r.getTimetableId().getMovieId().getTitle());
+    		dto.setTitle(r.getTimetableId().getMovieId().getTitle());
     		dto.setRunningtime(r.getTimetableId().getMovieId().getRunningtime());
     		dto.setMovieDate(r.getTimetableId().getMovieDate());
-    		dto.setReservationId(r.getId());
     		dto.setPrice(r.getPrice());
-    		
-    		// 좌석 번호만 추출해서 DTO에 추가
-    		List<String> seatNm = r.getSeatList().stream()
-    				.map(Seat::getSeatNb)
-    				.collect(Collectors.toList());
-    		dto.setSeatNm(seatNm);
-    		
-    		rLists.add(dto);
+    		dto.setSeatNm(new ArrayList<>());  // 좌석 리스트 초기화
+    		dto.setReservationId(new ArrayList<>()); // 예약 id 리스트 초기화
+    		}
+    		for(Seat s : r.getSeatList()) {
+    			dto.getSeatNm().add(s.getSeatNb());
+    		}
+    		dto.getReservationId().add(r.getId());
+            timetableMap.put(timetableId, dto);
     	}
-    	return rLists;
+    	 List<ReservationDTO> reservationList = new ArrayList<>(timetableMap.values());
+    	return reservationList;
     }
     
+    public void reservationDelete(List<Integer> reservationIds) {
+    	for(Integer id : reservationIds) {
+    		reservationRepository.deleteById(id);
+    	}
+    }
 
 }

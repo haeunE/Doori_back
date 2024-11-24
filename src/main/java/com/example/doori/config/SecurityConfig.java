@@ -53,7 +53,7 @@ public class SecurityConfig {
 					"/doori/movies/**","/doori/booking","/doori/reservation"
 					).permitAll()
 			.antMatchers(HttpMethod.PUT,"/doori/userupdate","/doori/myreviews").permitAll()
-			.antMatchers(HttpMethod.DELETE, "/doori/userdelete","/doori/myreviews").permitAll()
+			.antMatchers(HttpMethod.DELETE, "/doori/userdelete","/doori/myreviews","/doori/reservation/delete").permitAll()
 
 			.anyRequest().authenticated() //나머지 모든 요청은 인증 필요
 			.and()
