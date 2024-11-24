@@ -48,4 +48,9 @@ public class Review {
 	@ManyToOne
 	@JoinColumn(name="MOVIE_ID", nullable = false)
 	private Movie movieId;
+	
+	//예약정보 - timetableId(fk)
+	@ManyToOne
+	@JoinColumn(name = "TIMETABLE_ID", nullable = false)
+	private Timetable timetableId;
 }
