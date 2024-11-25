@@ -9,6 +9,7 @@ public class ReviewDTO {
 	private String review; // reviewContent임 
 	private Integer movieId; //Movie의 movieId
 	private Integer timetableId;
+	private Integer userId;
 	
 
 }
