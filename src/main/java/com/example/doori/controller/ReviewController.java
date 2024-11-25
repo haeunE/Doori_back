@@ -1,5 +1,7 @@
 package com.example.doori.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +30,15 @@ public class ReviewController {
 	}
 	
 	@GetMapping("/reviews")
+	public ResponseEntity<?> reviews(){
+		List<Integer> timetableIds = reviewService.getReviewsTB();
+		return new ResponseEntity<>(timetableIds,HttpStatus.OK);
+	}
+	
+	@GetMapping("/myreviews")
 	public ResponseEntity<?> myreviews(){
-		
-		return new ResponseEntity<>("",HttpStatus.OK);
+		List<Review> reviews = reviewService.getReviewsUser();
+		return new ResponseEntity<>(reviews, HttpStatus.OK);
 	}
 	
 	
