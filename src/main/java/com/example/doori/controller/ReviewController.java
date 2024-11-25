@@ -42,6 +42,18 @@ public class ReviewController {
 		return new ResponseEntity<>("review등록 했습니다.", HttpStatus.OK);
 	}
 	
+	
+
+	@GetMapping("/reviews")
+	  public ResponseEntity<?> reviews(){
+	     List<Integer> timetableIds = reviewService.getReviewsTB();
+	     return new ResponseEntity<>(timetableIds,HttpStatus.OK);
+	  }
+	@GetMapping("/myreviews")
+	  public ResponseEntity<?> myreviews(){
+	     List<Review> reviews = reviewService.getReviewsUser();
+	     return new ResponseEntity<>(reviews, HttpStatus.OK);
+	}
 	@GetMapping("/movies/{some}/reviews")
     public ResponseEntity<?> read_reviews(@PathVariable Integer some ) {
         System.out.println("PathVariable some: " + some);
@@ -52,11 +64,15 @@ public class ReviewController {
 	    return new ResponseEntity<>(findbyMovie, HttpStatus.OK);
         
     }
-	@GetMapping("myinfo/reviews")
-	public ResponseEntity<?> myreviews(){
-		User user = reviewService.getUser();
-        List<Review> findbyUser = reviewService.findbyuser(user);
-        System.out.println("Reviews by user: " + findbyUser);
-        return new ResponseEntity<>(findbyUser, HttpStatus.OK);
-	}
+//	@GetMapping("myinfo/reviews")
+//	public ResponseEntity<?> myreviews(){
+//		User user = reviewService.getUser();
+//        List<Review> findbyUser = reviewService.findbyuser(user);
+//        System.out.println("Reviews by user: " + findbyUser);
+//        return new ResponseEntity<>(findbyUser, HttpStatus.OK);
+//	}
+	 
+	 
+	   
+
 }

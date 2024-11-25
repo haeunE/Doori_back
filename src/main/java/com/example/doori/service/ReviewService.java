@@ -24,9 +24,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
-	@Autowired
+	
 	private final UserRepository userRepository;
-	@Autowired
+	
 	private final MovieRepository movieRepository;
 	private final TimetableRepository timetableRepository;
 	private final ReviewRepository reviewRepository;
@@ -80,6 +80,9 @@ public class ReviewService {
 	// review 불러오기 - user로 가져오기 
 	public List<Review> getReviewsUser(){
 		return reviewRepository.findByUserId(getUser());
+	}
+	public List<Review> findbymovie(Movie movieid){
+		return reviewRepository.findByMovieId(movieid);
 	}
 	
 }
