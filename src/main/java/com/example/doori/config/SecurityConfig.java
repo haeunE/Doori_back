@@ -46,7 +46,7 @@ public class SecurityConfig {
 			.antMatchers(HttpMethod.GET,
 					"/doori/home","doori/userupdate","/doori/movies/**","/doori/test", 
 					"/doori/reservation/**", "/doori/myreservation",
-					 "/doori/myreviews","/doori/**/reviews","/doori/reviews"
+					 "/doori/myreviews","/doori/movies/**/reviews","/doori/**/reviews"
 					).permitAll()
 			.antMatchers(HttpMethod.POST,
 					"/doori/login","/doori/signup", "/doori/login/kakao", "/doori/usernamecheck",

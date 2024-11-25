@@ -30,8 +30,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/doori")
 @RequiredArgsConstructor
 public class ReviewController {
-	@Autowired
-	public final ReviewService reviewService;
+	
+
+	private final ReviewService reviewService;
 	@Autowired
 	private MovieService movieService;
 	
@@ -41,27 +42,21 @@ public class ReviewController {
 		return new ResponseEntity<>("review등록 했습니다.", HttpStatus.OK);
 	}
 	
-	@GetMapping("/movies/20/reviews")
-    public ResponseEntity<?> myreviews( ) {
-//        System.out.println("PathVariable some: " + some);
-
-//        if ("user".equals(some)) {
-//            User user = reviewService.getUser();
-//            List<Review> findbyuser = reviewService.findbyuser(user);
-//            System.out.println("Reviews by user: " + findbyuser);
-//            return new ResponseEntity<>(findbyuser, HttpStatus.OK);
-//        } else {
-//            String[] num = some.split("/"); // Split the path into parts
-//            System.out.println("Split path segments: " + Arrays.toString(num));
-//
-//            // Access the last part of the path (movie ID)
-//            Integer movieId = Integer.valueOf(num[num.length - 1]);
-			Optional<Movie>  movie = movieService.getMovie(20);
-            List<?> findbymovie = reviewService.findbymovie(movie.get());
-            
+	@GetMapping("/movies/{some}/reviews")
+    public ResponseEntity<?> read_reviews(@PathVariable Integer some ) {
+        System.out.println("PathVariable some: " + some);
+		Optional<Movie>  movie = movieService.getMovie(some);
+	    List<?> findbyMovie = reviewService.findbymovie(movie.get());
+	    System.out.println(findbyMovie);
 //            System.out.println("Reviews by movie ID " + movieId + ": " + findbymovie);
-            return new ResponseEntity<>(findbymovie, HttpStatus.OK);
-//        }
+	    return new ResponseEntity<>(findbyMovie, HttpStatus.OK);
+        
     }
-	
+	@GetMapping("myinfo/reviews")
+	public ResponseEntity<?> myreviews(){
+		User user = reviewService.getUser();
+        List<Review> findbyUser = reviewService.findbyuser(user);
+        System.out.println("Reviews by user: " + findbyUser);
+        return new ResponseEntity<>(findbyUser, HttpStatus.OK);
+	}
 }
